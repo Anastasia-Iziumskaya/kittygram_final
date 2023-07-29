@@ -1,26 +1,39 @@
-#  Как работать с репозиторием финального задания
+# Kittygram — социальная сеть для обмена фотографиями любимых питомцев. Это полностью рабочий проект, который состоит из бэкенд-приложения на Django и фронтенд-приложения на React.
 
-## Что нужно сделать
+![Build Status](https://github.com/Anastasia-Iziumskaya/kittygram_final/workflows/main.yml/badge.svg)](https://github.com/Anastasia-Iziumskaya/kittygram_final/actions/workflows/main.yml)
 
-Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
+![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
-## Как проверить работу с помощью автотестов
+## Описание проекта
 
-В корне репозитория создайте файл tests.yml со следующим содержимым:
-```yaml
-repo_owner: ваш_логин_на_гитхабе
-kittygram_domain: полная ссылка (https://доменное_имя) на ваш проект Kittygram
-taski_domain: полная ссылка (https://доменное_имя) на ваш проект Taski
-dockerhub_username: ваш_логин_на_докерхабе
+Данный проект создан в процессе обучения на платформе Яндекс Практикум. Зарегистрированные пользователи могут делиться фотографиями своих (и не только) котиков, а также рассказать об их имени, окрасе и достижениях.
+
+## Технологии
+
+1) Django==3.2.3 
+2) Python 3.9
+3) Nginx
+4) Gunicorn
+
+## Запуск проекта
+Клонируем репозиторий:
+```bash
+git clone git@github.com:anastasia-iziumskaya/kittygram_final.git
 ```
+Переходим в директорию с проектом:
+```bash
+cd kittygram_final/
+```
+Выполняем запуск:
+```bash
+sudo docker compose -f docker-compose.yml up
+```
+Выполняем сбор статистики и применяем миграции бэкенда:
+```bash
+sudo docker compose -f [имя-файла-docker-compose.yml] exec backend python manage.py migrate
+sudo docker compose -f [имя-файла-docker-compose.yml] exec backend python manage.py collectstatic
+sudo docker compose -f [имя-файла-docker-compose.yml] exec backend cp -r /app/collected_static/. /static/static/
+```
+## Автор
+Анастасия Изюмская
 
-Скопируйте содержимое файла `.github/workflows/main.yml` в файл `kittygram_workflow.yml` в корневой директории проекта.
-
-Для локального запуска тестов создайте виртуальное окружение, установите в него зависимости из backend/requirements.txt и запустите в корневой директории проекта `pytest`.
-
-## Чек-лист для проверки перед отправкой задания
-
-- Проект Taski доступен по доменному имени, указанному в `tests.yml`.
-- Проект Kittygram доступен по доменному имени, указанному в `tests.yml`.
-- Пуш в ветку main запускает тестирование и деплой Kittygram, а после успешного деплоя вам приходит сообщение в телеграм.
-- В корне проекта есть файл `kittygram_workflow.yml`.
